@@ -1,0 +1,12 @@
+##实体节点
+LOAD CSV WITH HEADERS FROM 'file:///shiti.csv' AS line FIELDTERMINATOR ','
+MERGE (:实体{id:line.stID,名称:line.stMC});
+
+##特征节点
+LOAD CSV WITH HEADERS FROM 'file:///tezheng.csv' AS line FIELDTERMINATOR ','
+MERGE (:特征{id:line.tzID,名称:line.tzMC});
+
+##关系连线
+LOAD CSV WITH HEADERS FROM 'file:///guanxi.csv' AS line FIELDTERMINATOR ','
+MATCH (s:实体{id:line.stID}),(t:特征{id:line.tzID})
+MERGE (s)-[:关系{关系:line.guanxi}]->(t);
